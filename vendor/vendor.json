@@ -1,0 +1,19 @@
+{
+	"comment": "",
+	"ignore": "test",
+	"package": [
+		{
+			"checksumSHA1": "CzcsA3k48nSAuoOkDO9PU/sp/no=",
+			"path": "github.com/unrolled/render",
+			"revision": "198ad4d8b8a4612176b804ca10555b222a086b40",
+			"revisionTime": "2016-02-18T13:01:17Z"
+		},
+		{
+			"checksumSHA1": "Z7+TshnQv2ZOg8uHnibQI0d9K04=",
+			"path": "github.com/urfave/negroni",
+			"revision": "dcaac9107a7a6ba4cf5143afc145e2b70a1c12c2",
+			"revisionTime": "2016-06-16T02:26:26Z"
+		}
+	],
+	"rootPath": "github.com/revolting/leaves"
+}
