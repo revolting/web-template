@@ -11,9 +11,9 @@ Install go, e.g. `brew install go`
 Make a directory somewhere where you want all your Go projects to be, e.g. `$HOME/code/go`. Make two subdirectories, `bin` and `src` directly under like so:
 
 ```
-    -> go
-      -> bin
-      -> src
+-> go
+  -> bin
+  -> src
 ```
 
 ## Set your paths
@@ -21,14 +21,14 @@ Make a directory somewhere where you want all your Go projects to be, e.g. `$HOM
 Edit your .bashrc or .profile or whatever you use and add this:
 
 ```
-    export GOPATH=$HOME/code/go
-    PATH=$PATH:$HOME/code/go/bin
+export GOPATH=$HOME/code/go
+PATH=$PATH:$HOME/code/go/bin
 ```
 
 Save the file and open a new terminal window to get the latest .bashrc/.profile changes or just type something like this:
 
 ```
-    source ~/.profile
+source ~/.profile
 ```
 
 ## Install prerequisite dependencies
@@ -36,7 +36,7 @@ Save the file and open a new terminal window to get the latest .bashrc/.profile 
 Install govendor:
 
 ```
-    go get -u github.com/kardianos/govendor
+go get -u github.com/kardianos/govendor
 ```
 
 That will put govendor into `$HOME/code/go/bin`. All your Go binaries will also be in the same subdirectory.
@@ -46,11 +46,11 @@ That will put govendor into `$HOME/code/go/bin`. All your Go binaries will also 
 Go into `$HOME/code/go/src` and add a subdirectory for github.com repos or wherever you get your repositories:
 
 ```
-   -> go
-      -> bin
-      -> src
-        -> github.com
-          -> revolting
+-> go
+  -> bin
+  -> src
+    -> github.com
+      -> revolting
 ```
 
 Change into the src/github.com/revolting directory and `git clone https://github.com/revolting/leaves.git`
