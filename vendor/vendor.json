@@ -3,6 +3,22 @@
 	"ignore": "test",
 	"package": [
 		{
+			"path": "context",
+			"revision": ""
+		},
+		{
+			"checksumSHA1": "iIUYZyoanCQQTUaWsu8b+iOSPt4=",
+			"path": "github.com/gorilla/context",
+			"revision": "aed02d124ae4a0e94fea4541c8effd05bf0c8296",
+			"revisionTime": "2016-05-25T20:33:19Z"
+		},
+		{
+			"checksumSHA1": "H5f7qNqZl8N83s9cyC7Q1eWgAtI=",
+			"path": "github.com/gorilla/mux",
+			"revision": "9fa818a44c2bf1396a17f9d5a3c0f6dd39d2ff8e",
+			"revisionTime": "2016-06-05T23:35:21Z"
+		},
+		{
 			"checksumSHA1": "CzcsA3k48nSAuoOkDO9PU/sp/no=",
 			"path": "github.com/unrolled/render",
 			"revision": "198ad4d8b8a4612176b804ca10555b222a086b40",

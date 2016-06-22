@@ -13,11 +13,11 @@ govendor sync
 ## Start local server
 
 ```
-go run server.go
+go run main.go
 ```
 
 If you need to change the default flags for the port and whether it is a dev/prod server, where isDev defaults to true:
 
 ```
-go run server.go -port=:8000 -isDev=false
+go run main.go -port=:8000 -isDev=false
 ```
