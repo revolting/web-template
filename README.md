@@ -1,5 +1,9 @@
 # Leaves
 
+## If this is a whole new world for you
+
+Check out [SETUP.md](https://github.com/revolting/leaves/blob/master/SETUP.md)
+
 ## Install dependencies
 
 ```
