@@ -19,3 +19,11 @@ func Index(w http.ResponseWriter, req *http.Request) {
 func Directory(w http.ResponseWriter, req *http.Request) {
 	r.HTML(w, http.StatusOK, "directory", nil)
 }
+
+func Authenticate(w http.ResponseWriter, req *http.Request) {
+	r.HTML(w, http.StatusOK, "authenticate", nil)
+}
+
+func Validate(w http.ResponseWriter, req *http.Request) {
+	r.HTML(w, http.StatusOK, "validate", nil)
+}

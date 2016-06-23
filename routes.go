@@ -26,4 +26,28 @@ var routes = Routes{
         "/directory",
         Directory,
     },
+    Route{
+        "Authenticate",
+        "GET",
+        "/authenticate",
+        Authenticate,
+    },
+    Route{
+        "Authenticate",
+        "POST",
+        "/authenticate",
+        Authenticate,
+    },
+    Route{
+        "Validate",
+        "GET",
+        "/validate",
+        Validate,
+    },
+    Route{
+        "Validate",
+        "POST",
+        "/validate",
+        Validate,
+    },
 }
