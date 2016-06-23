@@ -22,7 +22,7 @@ Edit your .bashrc or .profile or whatever you use and add this:
 
 ```
 export GOPATH=$HOME/code/go
-PATH=$PATH:$HOME/code/go/bin
+PATH=$PATH:$GOPATH/bin
 ```
 
 Save the file and open a new terminal window to get the latest .bashrc/.profile changes or just type something like this:
