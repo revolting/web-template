@@ -4,6 +4,8 @@
 
 I know ... I know.
 
+You can customize for your editor of course https://github.com/golang/go/wiki/IDEsAndTextEditorPlugins
+
 ## Install and set up initial subdirectories
 
 Install go, e.g. `brew install go`
