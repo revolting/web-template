@@ -10,15 +10,21 @@ Check out [SETUP.md](https://github.com/revolting/leaves/blob/master/SETUP.md) a
 govendor sync
 ```
 
+## Build
+
+```
+go build
+```
+
 ## Start local server
 
 ```
-go run *.go
+./leaves
 ```
 
 If you need to change the default flags for the port and whether it is a dev/prod server, where isDev defaults to true:
 
 ```
-go run *.go -port=:8000 -isDev=false
+./leaves -port=:8080 -isDev=false -twilioSid=111 -twilioToken=111 -twilioPhone=5555555
 ```
 Visit http://localhost:8080 (or whatever your chose your port as)
