@@ -38,7 +38,7 @@ source ~/.profile
 Install govendor:
 
 ```
-go get -u github.com/kardianos/govendor
+go get github.com/kardianos/govendor
 ```
 
 That will put govendor into `$HOME/code/go/bin`. All your Go binaries will also be in the same subdirectory.

@@ -19,6 +19,24 @@
 			"revisionTime": "2016-06-05T23:35:21Z"
 		},
 		{
+			"checksumSHA1": "nZoAsxDHOA8fLilA56HKvezLqNU=",
+			"path": "github.com/gorilla/securecookie",
+			"revision": "ff356348f74133a59d3e93aa24b5b4551b6fe90d",
+			"revisionTime": "2016-05-25T20:33:48Z"
+		},
+		{
+			"checksumSHA1": "oSx9IYMY+lnnX3op2Pnh376tIe4=",
+			"path": "github.com/gorilla/sessions",
+			"revision": "56ba4b0a11da87516629a57408a5f7e4c8ea7b0b",
+			"revisionTime": "2016-06-04T16:54:08Z"
+		},
+		{
+			"checksumSHA1": "vNL7xL08iaySNAxSUz+AoXGu3DQ=",
+			"path": "github.com/patrickmn/go-cache",
+			"revision": "1881a9bccb818787f68c52bfba648c6cf34c34fa",
+			"revisionTime": "2016-01-27T17:00:04Z"
+		},
+		{
 			"checksumSHA1": "d59QO7DMLCyomtkCLHP7/UqNP4U=",
 			"path": "github.com/sfreiberg/gotwilio",
 			"revision": "f024bbefe80fdb7bcc8c43b6add05dae97744e0e",
@@ -35,6 +53,10 @@
 			"path": "github.com/urfave/negroni",
 			"revision": "dcaac9107a7a6ba4cf5143afc145e2b70a1c12c2",
 			"revisionTime": "2016-06-16T02:26:26Z"
+		},
+		{
+			"path": "https://github.com/patrickmn/go-cache",
+			"revision": ""
 		}
 	],
 	"rootPath": "github.com/revolting/leaves"

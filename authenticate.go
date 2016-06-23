@@ -7,8 +7,12 @@ import (
 	"strconv"
 	"time"
 
+	"github.com/patrickmn/go-cache"
 	"github.com/sfreiberg/gotwilio"
 )
+
+// 5 minute cache for pin
+var c = cache.New(5*time.Minute, 30*time.Second)
 
 func init() {
 	rand.Seed(time.Now().Unix())
@@ -51,14 +55,25 @@ func fixPhone(phone string) string {
 	return number
 }
 
-func sendPin(phone string) {
+func sendPin(phone string) string {
 	twilio := gotwilio.NewTwilioClient(*twilioSid, *twilioToken)
 	from := *twilioPhone
 	to := fixPhone(phone)
-	message := "Your PIN: " + generatePin()
+	pin := generatePin()
+	message := "Your PIN: " + pin
 	twilio.SendSMS(from, to, message, "", "")
+
+	c.Set(to, pin, cache.DefaultExpiration)
+	return to
 }
 
-func validatePin(pin string) {
-	println(pin)
+func validatePin(pin string, phone string) bool {
+	phonePin, found := c.Get(phone)
+	if found {
+		p := phonePin.(string)
+		if (p == pin) {
+			return true
+		}
+	}
+	return false
 }

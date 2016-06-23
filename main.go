@@ -5,22 +5,25 @@ import (
 	"log"
 	"net/http"
 
+	"github.com/gorilla/sessions"
 	"github.com/unrolled/render"
 	"github.com/urfave/negroni"
 )
 
 var (
-	httpPort 	= flag.String("port", ":8080", "Listen address")
-	serverEnv 	= flag.Bool("isDev", true, "Server environment mode")
-	twilioSid 	= flag.String("twilioSid", "111", "Twilio SID")
-	twilioToken = flag.String("twilioToken", "111", "Twilio Token")
-	twilioPhone	= flag.String("twilioPhone", "+15555555", "Twilio Phone Number")
+	httpPort 		= flag.String("port", ":8080", "Listen address")
+	serverEnv 		= flag.Bool("isDev", true, "Server environment mode")
+	twilioSid 		= flag.String("twilioSid", "111", "Twilio SID")
+	twilioToken 	= flag.String("twilioToken", "111", "Twilio token")
+	twilioPhone		= flag.String("twilioPhone", "+15555555", "Twilio phone number")
+	cookieSecret 	= flag.String("cookie", "secret", "Session cookie secret")
+	store 			= sessions.NewCookieStore([]byte(*cookieSecret))
 
-	r			= render.New(render.Options{
-					Directory: "templates",
-					Extensions: []string{".html"},
-					IsDevelopment: *serverEnv,
-				})
+	r				= render.New(render.Options{
+						Directory: "templates",
+						Extensions: []string{".html"},
+						IsDevelopment: *serverEnv,
+					})
 )
 
 func main() {
@@ -46,8 +49,17 @@ func Directory(w http.ResponseWriter, req *http.Request) {
 
 func Authenticate(w http.ResponseWriter, req *http.Request) {
 	if (req.Method == "POST") {
+		session, err := store.Get(req, "phone")
+		if (err != nil) {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+
 		decoder := req.FormValue("phone")
-		sendPin(decoder)
+		phone := sendPin(decoder)
+		session.Values["phone"] = phone;
+		session.Save(req, w)
+
 		http.Redirect(w, req, "/validate", 301)
 	} else {
 		r.HTML(w, http.StatusOK, "authenticate", nil)
@@ -56,8 +68,21 @@ func Authenticate(w http.ResponseWriter, req *http.Request) {
 
 func Validate(w http.ResponseWriter, req *http.Request) {
 	if (req.Method == "POST") {
+		session, err := store.Get(req, "phone")
+		if (err != nil) {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+
 		pin := req.FormValue("pin")
-		validatePin(pin, w, req)
+		phone := session.Values["phone"].(string)
+		pinVerify := validatePin(pin, phone)
+
+		if (pinVerify) {
+			http.Redirect(w, req, "/", 301)
+		} else {
+			r.HTML(w, http.StatusOK, "validate", nil)
+		}
 	} else {
 		r.HTML(w, http.StatusOK, "validate", nil)
 	}
