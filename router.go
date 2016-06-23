@@ -1,24 +1,44 @@
 package main
 
 import (
-    "net/http"
+	"log"
+	"net/http"
+	"time"
 
-    "github.com/gorilla/mux"
+	"github.com/gorilla/mux"
 )
 
 func NewRouter() *mux.Router {
-    router := mux.NewRouter().StrictSlash(true)
-    for _, route := range routes {
-        var handler http.Handler
-        handler = route.HandlerFunc
-        handler = Logger(handler, route.Name)
+	router := mux.NewRouter().StrictSlash(true)
 
-        router.
-            Methods(route.Method).
-            Path(route.Pattern).
-            Name(route.Name).
-            Handler(handler)
+	for _, route := range routes {
+		var handler http.Handler
+		handler = route.HandlerFunc
+		handler = Logger(handler, route.Name)
 
-    }
-    return router
+		router.
+			Methods(route.Method).
+			Path(route.Pattern).
+			Name(route.Name).
+			Handler(handler)
+
+	}
+
+	return router
+}
+
+func Logger(inner http.Handler, name string) http.Handler {
+  return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+    start := time.Now()
+
+    inner.ServeHTTP(w, r)
+
+    log.Printf(
+      "%s\t%s\t%s\t%s",
+      r.Method,
+      r.RequestURI,
+      name,
+      time.Since(start),
+    )
+  })
 }

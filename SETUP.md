@@ -20,7 +20,7 @@ Make a directory somewhere where you want all your Go projects to be, e.g. `$HOM
 
 ## Set your paths
 
-Edit your .bashrc or .profile or whatever you use and add this:
+Edit your .bashrc or .profile or whatever you use and add this. Note that this is assuming you put your code in ~/code/go but change it to the path you prefer if different:
 
 ```
 export GOPATH=$HOME/code/go
