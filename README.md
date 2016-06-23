@@ -10,7 +10,7 @@ Check out [SETUP.md](https://github.com/revolting/leaves/blob/master/SETUP.md) a
 govendor sync
 ```
 
-## Build
+## Build after making changes
 
 ```
 go build
@@ -25,6 +25,6 @@ go build
 If you need to change the default flags for the port and whether it is a dev/prod server, where isDev defaults to true:
 
 ```
-./leaves -port=:8080 -isDev=false -twilioSid=111 -twilioToken=111 -twilioPhone=5555555
+./leaves -port=:8080 -isDev=true -twilioSid=111 -twilioToken=111 -twilioPhone=5555555
 ```
 Visit http://localhost:8080 (or whatever your chose your port as)

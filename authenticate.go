@@ -58,3 +58,7 @@ func sendPin(phone string) {
 	message := "Your PIN: " + generatePin()
 	twilio.SendSMS(from, to, message, "", "")
 }
+
+func validatePin(pin string) {
+	println(pin)
+}

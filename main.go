@@ -47,14 +47,18 @@ func Directory(w http.ResponseWriter, req *http.Request) {
 func Authenticate(w http.ResponseWriter, req *http.Request) {
 	if (req.Method == "POST") {
 		decoder := req.FormValue("phone")
-		pin, err := sendPin(decoder)
-		if (err != nil) {
-			log.Fatal(err)
-		}
+		sendPin(decoder)
+		http.Redirect(w, req, "/validate", 301)
+	} else {
+		r.HTML(w, http.StatusOK, "authenticate", nil)
 	}
-	r.HTML(w, http.StatusOK, "authenticate", nil)
 }
 
 func Validate(w http.ResponseWriter, req *http.Request) {
-	r.HTML(w, http.StatusOK, "validate", nil)
+	if (req.Method == "POST") {
+		pin := req.FormValue("pin")
+		validatePin(pin, w, req)
+	} else {
+		r.HTML(w, http.StatusOK, "validate", nil)
+	}
 }
