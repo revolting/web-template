@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"log"
 	"math/rand"
 	"regexp"
@@ -15,14 +14,6 @@ import (
 
 // 5 minute cache for pin
 var c = cache.New(5*time.Minute, 30*time.Second)
-
-type Profile struct {
-	Uid			*uuid.UUID
-	Name		string
-	Phone		string
-}
-
-type ProfileList []*Profile
 
 func init() {
 	rand.Seed(time.Now().Unix())
@@ -94,9 +85,8 @@ func createProfile(phone string) {
 		log.Fatal(err)
 	}
 
-	var list ProfileList
-	list = append(list, &Profile{Uid: u, Name: "???", Phone: phone})
-	for _, e := range list {
-        fmt.Println("  ", *e)
-    }
+	err = updateProfile(&Profile{Uid: u, Name: "???", Phone: phone})
+	if (err != nil) {
+		log.Fatal(err)
+	}
 }

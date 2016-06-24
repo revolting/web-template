@@ -115,7 +115,6 @@ func Logout(w http.ResponseWriter, req *http.Request) {
 		return
 	}
 	session.Values["phone"] = nil
-
 	session.Save(req, w)
 	http.Redirect(w, req, "/", 301)
 }
