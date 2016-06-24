@@ -104,3 +104,15 @@ func Validate(w http.ResponseWriter, req *http.Request) {
 		r.HTML(w, http.StatusOK, "validate", nil)
 	}
 }
+
+func Logout(w http.ResponseWriter, req *http.Request) {
+	session, err := store.Get(req, "phone")
+	if (err != nil) {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	session.Values["phone"] = nil
+
+	session.Save(req, w)
+	http.Redirect(w, req, "/", 301)
+}

@@ -45,9 +45,9 @@ var routes = Routes{
         Validate,
     },
     Route{
-        "Validate",
-        "POST",
-        "/validate",
-        Validate,
+        "Logout",
+        "GET",
+        "/logout",
+        Logout,
     },
 }
