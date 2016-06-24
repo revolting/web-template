@@ -10,7 +10,11 @@
   </head>
   <body>
     <div id="wrapper">
-    uhhh.
+      {{ if .session }}
+        logged in
+      {{ end }}
+
+      {{ yield }}
     </div>
   </body>
 </html>

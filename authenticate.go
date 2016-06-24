@@ -77,3 +77,5 @@ func validatePin(pin string, phone string) bool {
 	}
 	return false
 }
+
+// TODO: sign out

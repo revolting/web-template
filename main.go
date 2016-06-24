@@ -2,6 +2,7 @@ package main
 
 import (
 	"flag"
+	"fmt"
 	"log"
 	"net/http"
 
@@ -21,7 +22,8 @@ var (
 
 	r				= render.New(render.Options{
 						Directory: "templates",
-						Extensions: []string{".html"},
+						Extensions: []string{".tmpl"},
+						Layout: "layout",
 						IsDevelopment: *serverEnv,
 					})
 )
@@ -40,7 +42,22 @@ func main() {
 }
 
 func Index(w http.ResponseWriter, req *http.Request) {
-	r.HTML(w, http.StatusOK, "index", nil)
+	session, err := store.Get(req, "phone")
+	if (err != nil) {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	s := false
+
+	if (session.Values["phone"] != nil) {
+		fmt.Println(*session)
+		s = true
+	}
+
+	r.HTML(w, http.StatusOK, "index", map[string]interface{}{
+		"session": s,
+	})
 }
 
 func Directory(w http.ResponseWriter, req *http.Request) {
