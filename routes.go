@@ -45,6 +45,12 @@ var routes = Routes{
         Validate,
     },
     Route{
+        "Validate",
+        "POST",
+        "/validate",
+        Validate,
+    },
+    Route{
         "Logout",
         "GET",
         "/logout",

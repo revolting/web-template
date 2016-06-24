@@ -1,18 +1,28 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"math/rand"
 	"regexp"
 	"strconv"
 	"time"
 
+	"github.com/nu7hatch/gouuid"
 	"github.com/patrickmn/go-cache"
 	"github.com/sfreiberg/gotwilio"
 )
 
 // 5 minute cache for pin
 var c = cache.New(5*time.Minute, 30*time.Second)
+
+type Profile struct {
+	Uid			*uuid.UUID
+	Name		string
+	Phone		string
+}
+
+type ProfileList []*Profile
 
 func init() {
 	rand.Seed(time.Now().Unix())
@@ -78,4 +88,15 @@ func validatePin(pin string, phone string) bool {
 	return false
 }
 
-// TODO: sign out
+func createProfile(phone string) {
+	u, err := uuid.NewV4()
+	if (err != nil) {
+		log.Fatal(err)
+	}
+
+	var list ProfileList
+	list = append(list, &Profile{Uid: u, Name: "???", Phone: phone})
+	for _, e := range list {
+        fmt.Println("  ", *e)
+    }
+}

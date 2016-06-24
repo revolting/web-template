@@ -96,6 +96,9 @@ func Validate(w http.ResponseWriter, req *http.Request) {
 		pinVerify := validatePin(pin, phone)
 
 		if (pinVerify) {
+			// TODO: create user acct if it doesn't already exist
+			createProfile(phone)
+
 			http.Redirect(w, req, "/", 301)
 		} else {
 			r.HTML(w, http.StatusOK, "validate", nil)
