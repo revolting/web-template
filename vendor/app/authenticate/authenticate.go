@@ -1,4 +1,4 @@
-package main
+package authenticate
 
 import (
 	"log"
@@ -10,6 +10,9 @@ import (
 	"github.com/nu7hatch/gouuid"
 	"github.com/patrickmn/go-cache"
 	"github.com/sfreiberg/gotwilio"
+
+	"app/db"
+	"app/utils"
 )
 
 // 5 minute cache for pin
@@ -56,9 +59,10 @@ func fixPhone(phone string) string {
 	return number
 }
 
-func sendPin(phone string) string {
-	twilio := gotwilio.NewTwilioClient(*twilioSid, *twilioToken)
-	from := *twilioPhone
+func SendPin(phone string) string {
+	flags := utils.GetFlags()
+	twilio := gotwilio.NewTwilioClient(flags.TwilioSid, flags.TwilioToken)
+	from := flags.TwilioPhone
 	to := fixPhone(phone)
 	pin := generatePin()
 	message := "Your PIN: " + pin
@@ -68,7 +72,7 @@ func sendPin(phone string) string {
 	return to
 }
 
-func validatePin(pin string, phone string) bool {
+func ValidatePin(pin string, phone string) bool {
 	phonePin, found := c.Get(phone)
 	if found {
 		p := phonePin.(string)
@@ -79,13 +83,13 @@ func validatePin(pin string, phone string) bool {
 	return false
 }
 
-func createProfile(phone string) {
+func CreateProfile(phone string) {
 	u, err := uuid.NewV4()
 	if (err != nil) {
 		log.Fatal(err)
 	}
 
-	err = updateProfile(&Profile{Uid: u, Name: "???", Phone: phone})
+	err = db.UpdateProfile(u, "???", phone)
 	if (err != nil) {
 		log.Fatal(err)
 	}

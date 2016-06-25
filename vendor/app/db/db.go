@@ -1,4 +1,4 @@
-package main
+package db
 
 import (
 	"encoding/json"
@@ -8,7 +8,7 @@ import (
 	"github.com/nu7hatch/gouuid"
 )
 
-const dbPath = "./db/leaves.db"
+const dbPath = "../../../db/leaves.db"
 
 type Profile struct {
 	Uid			*uuid.UUID
@@ -16,12 +16,14 @@ type Profile struct {
 	Phone		string
 }
 
-func updateProfile(profile *Profile) error {
+func UpdateProfile(uid *uuid.UUID, name string, phone string) error {
 	db, err := bolt.Open(dbPath, 0600, nil)
 	if err != nil {
 		log.Fatal(err)
 	}
 	defer db.Close()
+
+	profile := &Profile{Uid: uid, Name: name, Phone: phone}
 
 	err = db.Update(func(tx *bolt.Tx) error {
 		p, err := tx.CreateBucketIfNotExists([]byte("Profile"))

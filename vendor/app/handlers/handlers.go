@@ -1,48 +1,17 @@
-package main
+package handlers
 
 import (
-	"flag"
 	"fmt"
-	"log"
 	"net/http"
 
-	"github.com/gorilla/sessions"
-	"github.com/unrolled/render"
-	"github.com/urfave/negroni"
+	"app/authenticate"
+	"app/utils"
 )
 
-var (
-	httpPort		= flag.String("port", ":8080", "Listen address")
-	serverEnv		= flag.Bool("isDev", true, "Server environment mode")
-	twilioSid		= flag.String("twilioSid", "111", "Twilio SID")
-	twilioToken		= flag.String("twilioToken", "111", "Twilio token")
-	twilioPhone		= flag.String("twilioPhone", "+15555555", "Twilio phone number")
-	cookieSecret	= flag.String("cookie", "secret", "Session cookie secret")
-	store			= sessions.NewCookieStore([]byte(*cookieSecret))
-
-	r				= render.New(render.Options{
-						Directory: "templates",
-						Extensions: []string{".tmpl"},
-						Layout: "layout",
-						IsDevelopment: *serverEnv,
-					})
-)
-
-func main() {
-	flag.Parse()
-
-	router := NewRouter()
-	router.PathPrefix("/media/").Handler(http.StripPrefix("/media/", http.FileServer(http.Dir("./media/"))))
-
-	n := negroni.New()
-	n.Use(negroni.NewLogger())
-	n.UseHandler(router)
-
-	log.Fatal(http.ListenAndServe(*httpPort, n))
-}
+var r = utils.GetRender()
 
 func Index(w http.ResponseWriter, req *http.Request) {
-	session, err := store.Get(req, "phone")
+	session, err := utils.GetSession().Get(req, "phone")
 	if (err != nil) {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
@@ -66,14 +35,14 @@ func Directory(w http.ResponseWriter, req *http.Request) {
 
 func Authenticate(w http.ResponseWriter, req *http.Request) {
 	if (req.Method == "POST") {
-		session, err := store.Get(req, "phone")
+		session, err := utils.GetSession().Get(req, "phone")
 		if (err != nil) {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
 
 		decoder := req.FormValue("phone")
-		phone := sendPin(decoder)
+		phone := authenticate.SendPin(decoder)
 		session.Values["phone"] = phone;
 		session.Save(req, w)
 
@@ -85,7 +54,7 @@ func Authenticate(w http.ResponseWriter, req *http.Request) {
 
 func Validate(w http.ResponseWriter, req *http.Request) {
 	if (req.Method == "POST") {
-		session, err := store.Get(req, "phone")
+		session, err := utils.GetSession().Get(req, "phone")
 		if (err != nil) {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
@@ -93,11 +62,10 @@ func Validate(w http.ResponseWriter, req *http.Request) {
 
 		pin := req.FormValue("pin")
 		phone := session.Values["phone"].(string)
-		pinVerify := validatePin(pin, phone)
+		pinVerify := authenticate.ValidatePin(pin, phone)
 
 		if (pinVerify) {
-			// TODO: create user acct if it doesn't already exist
-			createProfile(phone)
+			authenticate.CreateProfile(phone)
 
 			http.Redirect(w, req, "/", 301)
 		} else {
@@ -109,11 +77,12 @@ func Validate(w http.ResponseWriter, req *http.Request) {
 }
 
 func Logout(w http.ResponseWriter, req *http.Request) {
-	session, err := store.Get(req, "phone")
+	session, err := utils.GetSession().Get(req, "phone")
 	if (err != nil) {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
+
 	session.Values["phone"] = nil
 	session.Save(req, w)
 	http.Redirect(w, req, "/", 301)
