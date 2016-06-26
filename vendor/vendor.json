@@ -19,6 +19,12 @@
 			"revisionTime": "2016-05-25T20:33:19Z"
 		},
 		{
+			"checksumSHA1": "ahJb/rIOtBflDbJmW/SWcb8Cu74=",
+			"path": "github.com/gorilla/csrf",
+			"revision": "4642ecf016ef548770875073f867ea02b4385f69",
+			"revisionTime": "2016-06-12T20:50:39Z"
+		},
+		{
 			"checksumSHA1": "H5f7qNqZl8N83s9cyC7Q1eWgAtI=",
 			"path": "github.com/gorilla/mux",
 			"revision": "9fa818a44c2bf1396a17f9d5a3c0f6dd39d2ff8e",
@@ -47,6 +53,12 @@
 			"path": "github.com/patrickmn/go-cache",
 			"revision": "1881a9bccb818787f68c52bfba648c6cf34c34fa",
 			"revisionTime": "2016-01-27T17:00:04Z"
+		},
+		{
+			"checksumSHA1": "/Ck2DFxjzCHkO+NZ+XGCPXo4tH0=",
+			"path": "github.com/pkg/errors",
+			"revision": "cbd18b5440315aa74a17dee2e50b67675b872b49",
+			"revisionTime": "2016-06-22T01:00:19Z"
 		},
 		{
 			"checksumSHA1": "d59QO7DMLCyomtkCLHP7/UqNP4U=",

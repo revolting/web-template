@@ -8,7 +8,7 @@ import (
 	"github.com/nu7hatch/gouuid"
 )
 
-const dbPath = "../../../db/leaves.db"
+const dbPath = "./db/leaves.db"
 
 type Profile struct {
 	Uid			*uuid.UUID

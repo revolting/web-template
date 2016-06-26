@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"net/http"
 
+	"github.com/gorilla/csrf"
+
 	"app/authenticate"
 	"app/utils"
 )
@@ -48,7 +50,9 @@ func Authenticate(w http.ResponseWriter, req *http.Request) {
 
 		http.Redirect(w, req, "/validate", 301)
 	} else {
-		r.HTML(w, http.StatusOK, "authenticate", nil)
+		r.HTML(w, http.StatusOK, "authenticate", map[string]interface{}{
+			csrf.TemplateTag: csrf.TemplateField(req),
+		})
 	}
 }
 
@@ -72,7 +76,9 @@ func Validate(w http.ResponseWriter, req *http.Request) {
 			r.HTML(w, http.StatusOK, "validate", nil)
 		}
 	} else {
-		r.HTML(w, http.StatusOK, "validate", nil)
+		r.HTML(w, http.StatusOK, "validate", map[string]interface{}{
+			csrf.TemplateTag: csrf.TemplateField(req),
+		})
 	}
 }
 

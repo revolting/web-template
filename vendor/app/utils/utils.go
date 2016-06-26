@@ -9,27 +9,29 @@ import (
 
 type Flag struct {
 	HttpPort		string
-	ServerEnv		bool
+	IsDev			bool
 	TwilioSid		string
 	TwilioToken		string
 	TwilioPhone		string
 	CookieSecret	string
+	CsrfSecret		string
 }
 
 var (
 	httpPort		= flag.String("port", ":8080", "Listen address")
-	serverEnv		= flag.Bool("isDev", true, "Server environment mode")
+	isDev			= flag.Bool("isDev", true, "Server environment mode")
 	twilioSid		= flag.String("twilioSid", "111", "Twilio SID")
 	twilioToken		= flag.String("twilioToken", "111", "Twilio token")
 	twilioPhone		= flag.String("twilioPhone", "+15555555", "Twilio phone number")
 	cookieSecret	= flag.String("cookie", "secret", "Session cookie secret")
+	csrfSecret		= flag.String("csrfSecret", "something-that-is-32-bytes------", "CSRF secret")
 	store			= sessions.NewCookieStore([]byte(*cookieSecret))
 
 	r				= render.New(render.Options{
 						Directory: "templates",
 						Extensions: []string{".tmpl"},
 						Layout: "layout",
-						IsDevelopment: *serverEnv,
+						IsDevelopment: *isDev,
 					})
 )
 
@@ -47,10 +49,11 @@ func GetSession() *sessions.CookieStore {
 
 func GetFlags() *Flag {
 	flags := &Flag{HttpPort: *httpPort,
-		ServerEnv: *serverEnv,
+		IsDev: *isDev,
 		TwilioSid: *twilioSid,
 		TwilioToken: *twilioToken,
 		TwilioPhone: *twilioPhone,
-		CookieSecret: *cookieSecret}
+		CookieSecret: *cookieSecret,
+		CsrfSecret: *csrfSecret}
 	return flags
 }
