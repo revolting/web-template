@@ -73,6 +73,12 @@
 			"revisionTime": "2016-02-18T13:01:17Z"
 		},
 		{
+			"checksumSHA1": "SCg+jT1UtvZ6+R16a/aksHqR0r4=",
+			"path": "github.com/unrolled/secure",
+			"revision": "4b41e52ab568cbfd31eda3612d98192da1575c77",
+			"revisionTime": "2016-03-19T03:15:19Z"
+		},
+		{
 			"checksumSHA1": "Z7+TshnQv2ZOg8uHnibQI0d9K04=",
 			"path": "github.com/urfave/negroni",
 			"revision": "dcaac9107a7a6ba4cf5143afc145e2b70a1c12c2",

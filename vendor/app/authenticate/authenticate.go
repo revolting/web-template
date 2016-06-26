@@ -1,6 +1,9 @@
 package authenticate
 
 import (
+	"crypto/md5"
+	"encoding/hex"
+	"fmt"
 	"log"
 	"math/rand"
 	"regexp"
@@ -83,14 +86,26 @@ func ValidatePin(pin string, phone string) bool {
 	return false
 }
 
-func CreateProfile(phone string) {
+func CreateProfile(phone string) (*db.Profile, error) {
 	u, err := uuid.NewV4()
 	if (err != nil) {
 		log.Fatal(err)
+		return nil, err
 	}
 
-	err = db.UpdateProfile(u, "???", phone)
+	hash := md5.Sum([]byte(phone))
+	phoneHash := hex.EncodeToString(hash[:])
+
+	profile, err := db.GetProfile(phoneHash)
 	if (err != nil) {
-		log.Fatal(err)
+		fmt.Println("NEW USER")
+		profile, err = db.UpdateProfile(*u, "???", phone)
+		if (err != nil) {
+			log.Fatal(err)
+		}
+	} else {
+		fmt.Println("FOUND USER ", *profile)
 	}
+
+	return profile, nil
 }

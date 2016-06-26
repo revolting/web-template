@@ -11,9 +11,10 @@ import (
 )
 
 var r = utils.GetRender()
+var s = utils.GetSession()
 
 func Index(w http.ResponseWriter, req *http.Request) {
-	session, err := utils.GetSession().Get(req, "phone")
+	session, err := s.Get(req, "phone")
 	if (err != nil) {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
@@ -37,7 +38,7 @@ func Directory(w http.ResponseWriter, req *http.Request) {
 
 func Authenticate(w http.ResponseWriter, req *http.Request) {
 	if (req.Method == "POST") {
-		session, err := utils.GetSession().Get(req, "phone")
+		session, err := s.Get(req, "phone")
 		if (err != nil) {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
@@ -58,7 +59,7 @@ func Authenticate(w http.ResponseWriter, req *http.Request) {
 
 func Validate(w http.ResponseWriter, req *http.Request) {
 	if (req.Method == "POST") {
-		session, err := utils.GetSession().Get(req, "phone")
+		session, err := s.Get(req, "phone")
 		if (err != nil) {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
@@ -69,7 +70,15 @@ func Validate(w http.ResponseWriter, req *http.Request) {
 		pinVerify := authenticate.ValidatePin(pin, phone)
 
 		if (pinVerify) {
-			authenticate.CreateProfile(phone)
+			profile, err := authenticate.CreateProfile(phone)
+			if (err != nil) {
+				http.Error(w, err.Error(), http.StatusInternalServerError)
+				return
+			}
+
+			session.Values["phone"] = profile.Phone
+			session.Values["uid"] = profile.Uid
+			session.Values["name"] = profile.Name
 
 			http.Redirect(w, req, "/", 301)
 		} else {
@@ -83,13 +92,15 @@ func Validate(w http.ResponseWriter, req *http.Request) {
 }
 
 func Logout(w http.ResponseWriter, req *http.Request) {
-	session, err := utils.GetSession().Get(req, "phone")
+	session, err := s.Get(req, "phone")
 	if (err != nil) {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 
 	session.Values["phone"] = nil
+	session.Values["uid"] = nil
+	session.Values["name"] = nil
 	session.Save(req, w)
 	http.Redirect(w, req, "/", 301)
 }
